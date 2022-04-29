@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/padlock_register.css' %}">
+    <title>Padlock Register</title>
+</head>
+
+<style>
+</style>
+
+<body>
+    <div class="container">
+        <h1>Padlock Register</h1>
+        <div class="plus-minus-box">
+            <div class="plus-box">
+                <img title="Add padlock" class="padlock-1" src="{% static 'img/padlock-add.png' %}" alt="" srcset="">
+            </div>
+            <div class="minus-box">
+                <img title="Delete padlock" class="padlock-1" src="{% static 'img/padlock-delete.png' %}" alt=""
+                    srcset="">
+            </div>
+            <div class="password-box">
+                <img class="padlock-2" src="{% static 'img/padlock-full.png' %}" alt="" srcset="">
+                <input class="password" type="password" placeholder="Password" name="password">
+            </div>
+        </div>
+        <form class="form" method="POST" action="{% url 'record' %}">
+            {% csrf_token %}
+
+            <input class="password" type="text" placeholder="Padlock number" name="number" id="number">
+
+            <input class="password" type="text" placeholder="PIN" name="pin" id="pin">
+
+            <select name="owner">
+                <option value="Cory" id="cory">Cory</option>
+                <option value="ALS" id="als">ALS</option>
+            </select>
+
+            <select name="location">
+                <option value="MRF Office" id="mrf-office">MRF Office</option>
+                <option value="Crane cabin" id="crane-cabin">Crane cabin</option>
+            </select>
+
+            <select name="registered_by">
+                <option value="Karoly" id="karoly">Karoly H</option>
+                <option value="Rafal" id="rafal">Rafal R</option>
+            </select>
+
+            <button class="save-btn" type="submit">Save</button>
+        </form>
+
+
+        {% for padlock in padlocks %}
+        <div class="detail-box">
+            <div><span class="detail">Number: </span>{{padlock.number}}</div>
+            <div><span class="detail">Status: </span>{{padlock.status}}</div>
+            <div><span class="detail">Owner: </span>{{padlock.owner}}</div>
+            <div><span class="detail">Location: </span>{{padlock.location}}</div>
+            <div><span class="detail">Registration time: </span>{{padlock.registration_time}}</div>
+            <div><span class="detail">Registered by: </span>{{padlock.registered_by}}</div>
+            <a class="del" pk=`{{padlock.pk}}` type="button" href="{% url 'delete' pk=padlock.id %}"><img class="bin"
+                    src="{% static 'img/trash.png' %}" alt="bin icon"></a>
+        </div>
+        {% endfor%}
+
+    </div>
+    <script src="{% static 'js/script.js' %}"></script>
+
+</body>
+
+</html>
